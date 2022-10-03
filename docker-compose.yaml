@@ -4,7 +4,6 @@ services:
   db:
     image: mysql
     container_name: tdl_back
-    restart: always
     volumes:
       - db-data:/var/lib/mysql
     environment:
@@ -15,7 +14,6 @@ services:
   phpmyadmin:
     image: phpmyadmin
     container_name: phpmyadmnin_tdl_back
-    restart: always
     depends_on:
       - db
     ports:
@@ -28,7 +26,6 @@ services:
   www:
     build: docker
     container_name: www_tdl_back
-    restart: always
     ports:
       - "8000:80"
     volumes:
