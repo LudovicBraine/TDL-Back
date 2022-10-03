@@ -1,27 +1,44 @@
-version: '3.7'
+version: '3'
+
 services:
-    php8-sf6:
-        container_name: php
-        build: php
-        ports:
-            - "9000:8000"
-        volumes:
-            - ./project:/var/www/html
+  db:
+    image: mysql
+    container_name: tdl_back
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    networks:
+      - dev
 
-    mailer:
-        image: schickling/mailcatcher
-        ports: [1025, 1080]
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmnin_tdl_back
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 8081:80
+    environment:
+      PMA_HOST: db
+    networks:
+      - dev
 
-    database:
-        image: postgres:13-alpine
-        environment:
-            POSTGRES_DB: app
-            POSTGRES_PASSWORD: ChangeMe
-            POSTGRES_USER: symfony
-        volumes:
-            - db-data:/var/lib/postgresql/data:rw
-        ports:
-            - "5432"
+  www:
+    build: docker
+    container_name: www_tdl_back
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - ./docker/vhosts:/etc/apache2/sites-enabled
+      - ./:/var/www
+    networks:
+      - dev
+
+networks:
+  dev:
 
 volumes:
   db-data:
