@@ -10,3 +10,10 @@ docker exec -w /var/www/project  www_tdl_back php bin/console doctrine:database:
 
 # Execute Test 
 docker exec -w /var/www/project www_tdl_back php bin/phpunit
+
+# Migrations
+docker exec -w /var/www/project www_tdl_back php bin/console  make:migration
+docker exec -w /var/www/project www_tdl_back php bin/console  doctrine:migrations:migrate
+
+# Load fixtures
+docker exec -w /var/www/project www_tdl_back php bin/console  doctrine:fixtures:load --append
