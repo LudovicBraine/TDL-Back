@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
@@ -16,25 +17,31 @@ class Task
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('api_tasks')]
     private ?int $id = null;
     
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
+    #[Groups('api_tasks')]
     private string $title;
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank()]
+    #[Groups('api_tasks')]
     private string $description;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups('api_tasks')]
     private string $state = Task::STATES[0];
 
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotNull()]
+    #[Groups('api_tasks')]
     private \DateTimeImmutable $updatedAt;
 
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotNull()]
+    #[Groups('api_tasks')]
     private \DateTimeImmutable $createdAt;
 
     public function __construct()
