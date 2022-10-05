@@ -1,7 +1,5 @@
 # TDL-Back
 
-Create database : 
-
 # todolist database
 docker exec -w /var/www/project  www_tdl_back php bin/console doctrine:database:create
 
